@@ -202,11 +202,9 @@
         someBool = truthy && iterator(item);
 
       if (someBool !== undefined && someBool !== null && someBool !== 0 && someBool !== false)
-        someBool = true;
+        return true;
       else
-        someBool = false;
-
-      return someBool;
+        return false;
     }, true);
 
     return bool;
@@ -216,6 +214,24 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    var bool = _.every(collection, function(item) {
+      if (iterator === undefined) {
+        if (item)
+          return false;
+        else
+          return true;
+      } else {
+        if (iterator(item))
+          return false;
+        else
+          return true;
+      }
+    });
+
+    if (bool === true)
+      return false;
+    else
+      return true;
   };
 
 
