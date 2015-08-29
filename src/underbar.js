@@ -314,7 +314,15 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {};
+  _.memoize = function(func) {
+    var cache = {};
+    return function() {
+      if (cache[arguments[0]] === undefined) {
+        cache[arguments[0]] = func.apply(this, arguments);
+      }
+      return cache[arguments[0]];
+    }
+  };
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -345,7 +353,18 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
-  _.shuffle = function(array) {};
+  _.shuffle = function(array) {
+    var copyArray = array.slice();
+
+    for (var i = copyArray.length - 1; i >= 1; i--) {
+      var randomNum = Math.floor(Math.random() * i);
+      var temp = copyArray[i];
+      copyArray[i] = copyArray[randomNum];
+      copyArray[randomNum] = temp;
+    }
+
+    return copyArray;
+  };
 
 
   /**
