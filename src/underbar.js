@@ -317,10 +317,14 @@
   _.memoize = function(func) {
     var cache = {};
     return function() {
-      if (cache[arguments[0]] === undefined) {
-        cache[arguments[0]] = func.apply(this, arguments);
+      var args = [];
+      for (var key in arguments) {
+        args.push(arguments[key]);
       }
-      return cache[arguments[0]];
+      if (cache[args.join("")] === undefined) {
+        cache[args.join("")] = func.apply(this, arguments);
+      }
+      return cache[args.join("")];
     }
   };
 
